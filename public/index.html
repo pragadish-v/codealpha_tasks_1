@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXORA | Premium Technology Marketplace</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles-premium-1.css">
+</head>
+
+<body>
+
+    <!-- Cinematic Custom Spotlight Tracker -->
+    <div class="spotlight-layer" id="spotlight"></div>
+
+    <!-- Toast Notification Engine Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Navigation Bar -->
+    <nav class="luxury-navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo" id="brand-logo">NEXORA</a>
+            <div class="nav-links" id="nav-links">
+                <a href="#" class="nav-item active" data-target="hero-view">Home</a>
+                <a href="#" class="nav-item" data-target="products-view" id="shop-link">Catalog</a>
+                <a href="#" class="nav-item" data-target="profile-view" id="profile-link">Profile</a>
+                <a href="#" class="nav-item admin-only hidden" data-target="admin-view" id="admin-link">Console</a>
+            </div>
+            <div class="nav-actions">
+                <div class="search-container">
+                    <input type="text" id="global-search" placeholder="Search curated technology..." autocomplete="off">
+                    <div class="suggestions-box hidden" id="suggestions-box"></div>
+                </div>
+                <button class="icon-btn" id="cart-toggle-btn" aria-label="Cart">
+                    <svg viewBox="0 0 24 24" class="nav-icon">
+                        <path
+                            d="M17 18c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2zM7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm1.75-2.23l.03-.12H17.5c.73 0 1.36-.41 1.66-1.01l3.58-6.49c.31-.57-.1-1.27-.75-1.27H5.21l-.94-2H1v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25z" />
+                    </svg>
+                    <span class="cart-badge hidden" id="cart-badge">0</span>
+                </button>
+                <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle Menu">
+                    <span></span><span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Slide-out Drawer Panel for Mobile Devices -->
+    <div class="mobile-drawer" id="mobile-drawer">
+        <div class="drawer-header">
+            <div class="drawer-title">NEXORA</div>
+            <button class="close-drawer" id="close-drawer-btn">&times;</button>
+        </div>
+        <div class="drawer-links">
+            <a href="#" class="drawer-link active" data-target="hero-view">Home</a>
+            <a href="#" class="drawer-link" data-target="products-view">Catalog</a>
+            <a href="#" class="drawer-link" data-target="profile-view">Profile</a>
+            <a href="#" class="drawer-link admin-only hidden" data-target="admin-view">Admin Panel</a>
+        </div>
+    </div>
+
+    <!-- Main Dynamic Application Container -->
+    <main class="app-viewport">
+
+        <!-- 1. Home / Hero View (Microsoft Copilot Inspired Layered Visual) -->
+        <section id="hero-view" class="view-panel active-panel">
+            <div class="hero-container hero-cinematic">
+                <!-- Layered cinematic background (pure CSS/SVG, no external assets) -->
+                <div class="hero-backdrop-effects" aria-hidden="true">
+                    <!-- Abstract CPU / GPU accelerator silhouettes -->
+                    <svg class="hero-silhouettes" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <!-- CPU die -->
+                        <g class="silhouette-cpu">
+                            <rect x="560" y="330" width="320" height="240" rx="14" />
+                            <rect x="610" y="380" width="220" height="140" rx="8" class="silhouette-core" />
+                            <g class="silhouette-pins">
+                                <rect x="540" y="360" width="20" height="8" />
+                                <rect x="540" y="400" width="20" height="8" />
+                                <rect x="540" y="440" width="20" height="8" />
+                                <rect x="540" y="480" width="20" height="8" />
+                                <rect x="540" y="520" width="20" height="8" />
+                                <rect x="880" y="360" width="20" height="8" />
+                                <rect x="880" y="400" width="20" height="8" />
+                                <rect x="880" y="440" width="20" height="8" />
+                                <rect x="880" y="480" width="20" height="8" />
+                                <rect x="880" y="520" width="20" height="8" />
+                            </g>
+                        </g>
+                        <!-- GPU accelerator block -->
+                        <g class="silhouette-gpu">
+                            <rect x="120" y="200" width="260" height="110" rx="10" />
+                            <rect x="1080" y="600" width="240" height="100" rx="10" />
+                        </g>
+                    </svg>
+
+                    <!-- Golden flowing circuit traces -->
+                    <svg class="hero-circuits" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <g class="circuit-traces">
+                            <path d="M0,160 H320 L380,220 H720" />
+                            <path d="M1440,260 H980 L920,200 H560" />
+                            <path d="M0,640 H260 L320,580 H560 L620,640 H860" />
+                            <path d="M1440,720 H1120 L1060,660 H760" />
+                            <path d="M720,0 V180 L660,240 V420" />
+                            <path d="M720,900 V700 L780,640 V480" />
+                        </g>
+                        <g class="circuit-nodes">
+                            <circle cx="320" cy="160" r="5" />
+                            <circle cx="720" cy="220" r="5" />
+                            <circle cx="980" cy="260" r="5" />
+                            <circle cx="560" cy="200" r="5" />
+                            <circle cx="260" cy="640" r="5" />
+                            <circle cx="620" cy="640" r="5" />
+                            <circle cx="1120" cy="720" r="5" />
+                            <circle cx="660" cy="240" r="5" />
+                        </g>
+                    </svg>
+
+                    <!-- Faint AI energy lines -->
+                    <div class="ai-energy-lines">
+                        <span></span><span></span><span></span><span></span>
+                    </div>
+
+                    <!-- GPU particle field -->
+                    <div class="particle-field"></div>
+                    <div class="particle-field particle-field-slow"></div>
+
+                    <!-- Warm cinematic glow -->
+                    <div class="cinematic-glow cinematic-glow-gold"></div>
+                    <div class="cinematic-glow cinematic-glow-warm"></div>
+                </div>
+
+                <div class="hero-content hero-content-centered">
+                    <div class="premium-micro-tag">Next Generation Commerce</div>
+                    <h1 class="hero-title">Technology, Curated.<br>For Those Who Expect More.</h1>
+                    <p class="hero-subtitle">Explore a handpicked collection of premium devices crafted for creators,
+                        professionals, and innovators.</p>
+                    <div class="hero-actions">
+                        <button class="btn btn-primary" onclick="appState.navigateTo('products-view')">Explore
+                            Collection</button>
+                        <button class="btn btn-secondary" onclick="appState.navigateTo('products-view')">New
+                            Arrivals</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Categories Selection Area -->
+            <section class="section-container" id="category-section">
+                <h2 class="section-title">Featured Categories</h2>
+                <div class="categories-grid">
+                    <div class="category-card" data-category="smartphones"
+                        onclick="appState.filterProducts('smartphones')">
+                        <div class="cat-image-bg"
+                            style="background-image: url('https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=80');">
+                        </div>
+                        <div class="category-overlay">
+                            <h3>Smartphones</h3>
+                            <p>Premium mobile devices</p>
+                        </div>
+                    </div>
+                    <div class="category-card" data-category="laptops" onclick="appState.filterProducts('laptops')">
+                        <div class="cat-image-bg"
+                            style="background-image: url('https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=800&q=80');">
+                        </div>
+                        <div class="category-overlay">
+                            <h3>Laptops</h3>
+                            <p>Ultimate computing power</p>
+                        </div>
+                    </div>
+                    <div class="category-card" data-category="accessories"
+                        onclick="appState.filterProducts('accessories')">
+                        <div class="cat-image-bg"
+                            style="background-image: url('https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=crop&fit=crop&w=800&q=80');">
+                        </div>
+                        <div class="category-overlay">
+                            <h3>Accessories</h3>
+                            <p>Premium audio & more</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Why NEXORA Features Section -->
+            <!-- Testimonials Section -->
+            <section class="section-container">
+                <h2 class="section-title">Trusted by Thousands</h2>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card">
+                        <div class="testimonial-stars">★★★★★</div>
+                        <p class="testimonial-text">"The quality and attention to detail is exceptional. Exactly what I
+                            was looking for in a premium marketplace."</p>
+                        <div class="testimonial-author">- Alex Morgan</div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-stars">★★★★★</div>
+                        <p class="testimonial-text">"Fast shipping, premium products, and outstanding customer support.
+                            NEXORA sets the standard."</p>
+                        <div class="testimonial-author">- Jordan Reed</div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-stars">★★★★★</div>
+                        <p class="testimonial-text">"A truly premium shopping experience. The selection and curation of
+                            products is world-class."</p>
+                        <div class="testimonial-author">- Casey Thompson</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Statistics Section -->
+            <section class="section-container">
+                <h2 class="section-title">By The Numbers</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="stat-orders">50K+</div>
+                        <div class="stat-label">Orders Delivered</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="stat-customers">100K+</div>
+                        <div class="stat-label">Happy Customers</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="stat-products">500+</div>
+                        <div class="stat-label">Premium Products</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">4.9★</div>
+                        <div class="stat-label">Average Rating</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Newsletter CTA Section -->
+            <section class="section-container">
+                <div class="newsletter-section">
+                    <h2>Stay In The Loop</h2>
+                    <p>Get early access to new launches, exclusive deals, and curated tech insights delivered to your
+                        inbox.</p>
+                    <form class="newsletter-form" onsubmit="return false;">
+                        <input type="email" placeholder="Enter your email" required>
+                        <button type="submit" class="btn btn-primary">Subscribe</button>
+                    </form>
+                </div>
+            </section>
+        </section>
+
+        <!-- 2. Products Catalog View -->
+        <section id="products-view" class="view-panel view-spacing">
+            <div class="section-container">
+                <div class="catalog-header">
+                    <div>
+                        <h1 class="catalog-main-title">Curated Collection</h1>
+                        <p class="catalog-subtitle">Filter by category to display our bespoke electronics inventory</p>
+                    </div>
+                    <!-- Catalog Controls / Filters -->
+                    <div class="catalog-filters">
+                        <button class="filter-tab active" data-category-filter="all">All Products</button>
+                        <button class="filter-tab" data-category-filter="smartphones">Smartphones</button>
+                        <button class="filter-tab" data-category-filter="laptops">Laptops</button>
+                        <button class="filter-tab" data-category-filter="accessories">Accessories</button>
+                    </div>
+                </div>
+
+                <!-- Product Display Grid -->
+                <div id="catalog-products-grid" class="products-grid">
+                    <!-- Products dynamically rendered here -->
+                    <div class="skeleton-loader"></div>
+                    <div class="skeleton-loader"></div>
+                    <div class="skeleton-loader"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Dynamic Product Details View -->
+        <section id="product-detail-view" class="view-panel view-spacing">
+            <div class="section-container" id="product-details-container">
+                <!-- Dynamically loaded product properties page layout -->
+            </div>
+        </section>
+
+        <!-- 4. User Profile / Auth Gate View -->
+        <section id="profile-view" class="view-panel view-spacing">
+            <div class="section-container max-width-small">
+
+                <!-- Unauthenticated UI Frame -->
+                <div id="auth-box-wrapper" class="glass-form-card">
+                    <div class="form-tabs">
+                        <button class="form-tab-btn active" id="tab-login-btn">Sign In</button>
+                        <button class="form-tab-btn" id="tab-register-btn">Create Account</button>
+                    </div>
+
+                    <!-- Sign-in Container Form -->
+                    <form id="login-form" class="form-block">
+                        <h2 class="form-title">Welcome to the Inner Circle</h2>
+                        <div class="form-group">
+                            <label for="login-email">SECURE EMAIL</label>
+                            <input type="email" id="login-email" required placeholder="name@domain.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password">PASSWORD</label>
+                            <div class="password-input-wrapper">
+                                <input type="password" id="login-password" required placeholder="••••••••">
+                                <button type="button" class="password-toggle-btn" id="toggle-login-password"
+                                    aria-label="Toggle password visibility">👁️</button>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Authenticate Identity</button>
+                    </form>
+
+                    <!-- Registration Container Form -->
+                    <form id="register-form" class="form-block hidden">
+                        <h2 class="form-title">Initiate Premium Membership</h2>
+                        <div class="form-group">
+                            <label for="reg-name">FULL NAME</label>
+                            <input type="text" id="reg-name" required placeholder="Lord/Lady Sterling">
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-email">SECURE EMAIL</label>
+                            <input type="email" id="reg-email" required placeholder="name@domain.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-password">SECURE ENCRYPTION KEY (PASSWORD)</label>
+                            <div class="password-input-wrapper">
+                                <input type="password" id="reg-password" required placeholder="Min 8 characters">
+                                <button type="button" class="password-toggle-btn" id="toggle-reg-password"
+                                    aria-label="Toggle password visibility">👁️</button>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Establish Credentials</button>
+                    </form>
+                </div>
+
+                <!-- Authenticated User Profile Dashboard -->
+                <div id="user-profile-wrapper" class="hidden">
+                    <div class="profile-header-card">
+                        <div class="avatar-glow"></div>
+                        <div class="user-meta-info">
+                            <h2 id="profile-user-name">Welcome Back, Guest</h2>
+                            <p id="profile-user-email"><a href="/cdn-cgi/l/email-protection" class="__cf_email__"
+                                    data-cfemail="c5a2b0a0b6b185aba0bdaab7a4eba6aaa8">[email&#160;protected]</a></p>
+                            <span class="user-tier-badge" id="profile-user-role">Privileged Client</span>
+                        </div>
+                        <button class="btn btn-secondary btn-small" id="logout-btn">Terminate Session</button>
+                    </div>
+
+                    <!-- Profile Management Sections -->
+                    <div class="profile-grids">
+                        <!-- Left Panel: Profile Updates & History -->
+                        <div class="profile-main-stack">
+                            <div class="glass-panel">
+                                <h3>Account Information Update</h3>
+                                <form id="update-profile-form">
+                                    <div class="form-group">
+                                        <label>Preferred User Name</label>
+                                        <input type="text" id="update-name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Secure Communication Email</label>
+                                        <input type="email" id="update-email" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Save Profile Configuration</button>
+                                </form>
+                            </div>
+
+                            <div class="glass-panel mt-20">
+                                <h3>Commissions History & Tracking</h3>
+                                <div id="orders-history-container" class="orders-list">
+                                    <p class="placeholder-text">No prior transactions on file for this user session.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Panel: Wishlist -->
+                        <div class="profile-side-stack">
+                            <div class="glass-panel height-full">
+                                <h3>Bespoke Wishlist</h3>
+                                <div id="wishlist-container" class="wishlist-list">
+                                    <p class="placeholder-text">Wishlist currently unpopulated.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 5. Interactive Secure Admin Console View -->
+        <section id="admin-view" class="view-panel view-spacing">
+            <div class="section-container">
+                <div class="admin-panel-header">
+                    <div>
+                        <h1 class="admin-panel-title">NEXORA Admin Console</h1>
+                        <p class="catalog-subtitle">Manage listings, view transaction telemetry, and dispatch custom
+                            orders.</p>
+                    </div>
+                </div>
+
+                <!-- Top Analytics Bar -->
+                <div class="analytics-grid">
+                    <div class="analytic-card">
+                        <div class="title">Bespoke Sales Volume</div>
+                        <div class="value" id="analytic-revenue">$0.00</div>
+                    </div>
+                    <div class="analytic-card">
+                        <div class="title">Secured Users</div>
+                        <div class="value" id="analytic-users">0</div>
+                    </div>
+                    <div class="analytic-card">
+                        <div class="title">Catalog Count</div>
+                        <div class="value" id="analytic-products">0</div>
+                    </div>
+                    <div class="analytic-card">
+                        <div class="title">Active Commissions</div>
+                        <div class="value" id="analytic-orders">0</div>
+                    </div>
+                </div>
+
+                <!-- Control Console Layout splits -->
+                <div class="admin-split-grid">
+                    <!-- Left: Create/Update Products Form -->
+                    <div class="glass-panel">
+                        <h3 id="product-form-action-title">Inventory Curation</h3>
+                        <form id="admin-product-form">
+                            <input type="hidden" id="admin-p-id">
+                            <div class="form-group">
+                                <label for="admin-p-name">PRODUCT SYSTEM NAME</label>
+                                <input type="text" id="admin-p-name" required placeholder="e.g. NEXORA Carbon M3">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="admin-p-category">CATEGORY</label>
+                                    <select id="admin-p-category" required>
+                                        <option value="smartphones">smartphones</option>
+                                        <option value="laptops">laptops</option>
+                                        <option value="accessories">accessories</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="admin-p-price">PRICE (IN)</label>
+                                    <input type="number" id="admin-p-price" required min="1" placeholder="4500">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="admin-p-image">IMAGE URL</label>
+                                    <input type="url" id="admin-p-image" placeholder="https://images.unsplash.com/...">
+                                </div>
+                                <div class="form-group">
+                                    <label for="admin-p-stock">COMMISSION STOCK CAPACITY</label>
+                                    <input type="number" id="admin-p-stock" required min="0" value="10">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="admin-p-description">BESPOKE DESCRIPTION SPECIFICATION</label>
+                                <textarea id="admin-p-description" required rows="4"
+                                    placeholder="Precision materials details..."></textarea>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary" id="admin-submit-btn">Publish
+                                    Item</button>
+                                <button type="button" class="btn btn-secondary hidden" id="admin-cancel-edit-btn">Cancel
+                                    Edit</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Right: Product Inventory Operations -->
+                    <div class="glass-panel flex-column overflow-hidden">
+                        <h3>Secure Inventory Registry</h3>
+                        <div class="scroll-table-wrapper">
+                            <table class="luxury-table">
+                                <thead>
+                                    <tr>
+                                        <th>Device Name</th>
+                                        <th>Category</th>
+                                        <th>Price</th>
+                                        <th>Stock</th>
+                                        <th>Control</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-inventory-table-body">
+                                    <!-- Dynamic product content rendering -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Order Telemetry Control -->
+                <div class="glass-panel mt-20">
+                    <h3>Commission Dispatches & Tracking Systems</h3>
+                    <div class="scroll-table-wrapper">
+                        <table class="luxury-table">
+                            <thead>
+                                <tr>
+                                    <th>Commission ID</th>
+                                    <th>Client Identity</th>
+                                    <th>Total Pricing</th>
+                                    <th>Status Flag</th>
+                                    <th>Dispatch Control</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-orders-table-body">
+                                <!-- Order lists loaded by system admin dashboard -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Premium Shopping Cart -->
+    <aside class="shopping-cart-canvas" id="shopping-cart-canvas">
+        <div class="cart-header">
+            <h3>Shopping Cart</h3>
+            <button class="close-cart-btn" id="close-cart-btn">&times;</button>
+        </div>
+        <div class="cart-items" id="cart-items-container">
+            <!-- Dynamic Cart Items loaded from App State -->
+            <p class="placeholder-text">Your cart is empty.</p>
+        </div>
+        <div class="cart-footer">
+            <div class="price-summary-row">
+                <span>Subtotal:</span>
+                <span id="cart-subtotal-price">$0.00</span>
+            </div>
+            <p class="disclaimer-note">Secure checkout with encrypted payment processing.</p>
+            <button class="btn btn-primary btn-block" id="proceed-checkout-btn">Checkout</button>
+        </div>
+    </aside>
+
+    <!-- Premium Checkout Dialog Modal -->
+    <div class="checkout-modal-backdrop hidden" id="checkout-modal">
+        <div class="checkout-modal-card glass-panel">
+            <h2>Secure Checkout</h2>
+            <form id="checkout-form">
+                <div class="form-group">
+                    <label>Shipping Address</label>
+                    <input type="text" id="ship-street" required placeholder="Street address">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>CITY</label>
+                        <input type="text" id="ship-city" required placeholder="Zurich">
+                    </div>
+                    <div class="form-group">
+                        <label>POSTAL CODE</label>
+                        <input type="text" id="ship-postal" required placeholder="8001">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>COUNTRY</label>
+                    <input type="text" id="ship-country" required placeholder="Switzerland">
+                </div>
+                <div class="checkout-cost-breakdown">
+                    <div>Commission Assessment Price: <span id="checkout-order-total"
+                            class="gold-gradient-text">$0.00</span></div>
+                </div>
+                <div class="modal-actions mt-20">
+                    <button type="submit" class="btn btn-primary">Authorize Settlement Wire</button>
+                    <button type="button" class="btn btn-secondary" id="checkout-cancel-btn">Abort Transmission</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Premium Global Page Footer -->
+    <footer class="luxury-footer">
+        <div class="footer-grid">
+            <div class="footer-brand-info">
+                <h3>NEXORA</h3>
+                <p>Premium technology marketplace. Curated for the discerning. Built for the future.</p>
+            </div>
+            <div class="footer-links-column">
+                <h4>Explore</h4>
+                <a href="#" class="footer-link" onclick="appState.navigateTo('hero-view')">Home</a>
+                <a href="#" class="footer-link" onclick="appState.navigateTo('products-view')">Products</a>
+                <a href="#" class="footer-link" onclick="appState.navigateTo('profile-view')">Account</a>
+            </div>
+            <div class="footer-links-column">
+                <h4>Support</h4>
+                <a href="#" class="footer-link">Help Center</a>
+                <a href="#" class="footer-link">Contact Us</a>
+                <a href="#" class="footer-link">Shipping Info</a>
+            </div>
+            <div class="footer-links-column">
+                <h4>Legal</h4>
+                <a href="#" class="footer-link">Privacy Policy</a>
+                <a href="#" class="footer-link">Terms of Service</a>
+                <a href="#" class="footer-link">Returns</a>
+            </div>
+        </div>
+        <div class="footer-legal">
+            <div>© 2026 NEXORA. All rights reserved. Premium technology for the future.</div>
+        </div>
+    </footer>
+
+    <!-- App Engine Script Engine -->
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script src="app.js"></script>
+    <script>(function () { function c() { var b = a.contentDocument || a.contentWindow.document; if (b) { var d = b.createElement('script'); d.innerHTML = "window.__CF$cv$params={r:'a1045683eb087efe',t:'MTc4MjIyNjU3MA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);"; b.getElementsByTagName('head')[0].appendChild(d) } } if (document.body) { var a = document.createElement('iframe'); a.height = 1; a.width = 1; a.style.position = 'absolute'; a.style.top = 0; a.style.left = 0; a.style.border = 'none'; a.style.visibility = 'hidden'; document.body.appendChild(a); if ('loading' !== document.readyState) c(); else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c); else { var e = document.onreadystatechange || function () { }; document.onreadystatechange = function (b) { e(b); 'loading' !== document.readyState && (document.onreadystatechange = e, c()) } } } })();</script>
+</body>
+
+</html>
