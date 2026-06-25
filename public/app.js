@@ -9,6 +9,26 @@ const API_BASE = window.location.origin.includes('localhost') || window.location
     ? 'http://localhost:5000/api'
     : `${window.location.origin}/api`;
 
+const safeStorage = {
+    get(key) {
+        try {
+            return localStorage.getItem(key);
+        } catch (err) {
+            return null;
+        }
+    },
+    set(key, value) {
+        try {
+            localStorage.setItem(key, value);
+        } catch (err) { }
+    },
+    remove(key) {
+        try {
+            localStorage.removeItem(key);
+        } catch (err) { }
+    }
+};
+
 const appState = {
     user: null,
     token: null,
@@ -28,9 +48,9 @@ const appState = {
     },
 
     loadSession: function () {
-        const token = localStorage.getItem('nexora_token');
-        const userData = localStorage.getItem('nexora_user');
-        const savedCart = localStorage.getItem('nexora_cart');
+        const token = safeStorage.get('nexora_token');
+        const userData = safeStorage.get('nexora_user');
+        const savedCart = safeStorage.get('nexora_cart');
 
         if (token && userData) {
             this.token = token;
@@ -49,8 +69,8 @@ const appState = {
         this.token = token;
         this.user = user;
         this.wishlist = user.wishlist || [];
-        localStorage.setItem('nexora_token', token);
-        localStorage.setItem('nexora_user', JSON.stringify(user));
+        safeStorage.set('nexora_token', token);
+        safeStorage.set('nexora_user', JSON.stringify(user));
         this.toggleAdminConsoleAccess();
         this.fetchProfileTelemetry();
     },
@@ -59,8 +79,8 @@ const appState = {
         this.token = null;
         this.user = null;
         this.wishlist = [];
-        localStorage.removeItem('nexora_token');
-        localStorage.removeItem('nexora_user');
+        safeStorage.remove('nexora_token');
+        safeStorage.remove('nexora_user');
         this.toggleAdminConsoleAccess();
         this.renderProfile();
     },
@@ -110,7 +130,6 @@ const appState = {
             }, 50);
         }
 
-        // Toggle Navbar selection highlights
         document.querySelectorAll('.nav-item, .drawer-link').forEach(link => {
             if (link.getAttribute('data-target') === viewId) {
                 link.classList.add('active');
@@ -122,7 +141,6 @@ const appState = {
         this.currentView = viewId;
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
-        // Specific routing view triggers
         if (viewId === 'profile-view') {
             this.renderProfile();
         } else if (viewId === 'admin-view') {
@@ -142,6 +160,8 @@ const appState = {
     // Mouse Spotlight effect dynamic mapping
     trackSpotlight: function () {
         const spotlight = document.getElementById('spotlight');
+        if (!spotlight) return;
+
         window.addEventListener('mousemove', (e) => {
             spotlight.style.setProperty('--x', `${e.clientX}px`);
             spotlight.style.setProperty('--y', `${e.clientY}px`);
@@ -156,39 +176,81 @@ const appState = {
                 e.preventDefault();
                 const target = item.getAttribute('data-target');
                 this.navigateTo(target);
-                // Close mobile drawer on routing
-                document.getElementById('mobile-drawer').classList.remove('active');
+                const drawer = document.getElementById('mobile-drawer');
+                if (drawer) drawer.classList.remove('active');
             });
         });
 
+        // Hero buttons
+        const exploreBtn = document.getElementById('explore-collection-btn');
+        const arrivalsBtn = document.getElementById('new-arrivals-btn');
+
+        if (exploreBtn) {
+            exploreBtn.addEventListener('click', () => {
+                this.navigateTo('products-view');
+            });
+        }
+
+        if (arrivalsBtn) {
+            arrivalsBtn.addEventListener('click', () => {
+                this.navigateTo('products-view');
+            });
+        }
+
         // Mobile drawer toggles
-        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
-            document.getElementById('mobile-drawer').classList.add('active');
-        });
-        document.getElementById('close-drawer-btn').addEventListener('click', () => {
-            document.getElementById('mobile-drawer').classList.remove('active');
-        });
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const closeDrawerBtn = document.getElementById('close-drawer-btn');
+        const mobileDrawer = document.getElementById('mobile-drawer');
+
+        if (mobileMenuBtn && mobileDrawer) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileDrawer.classList.add('active');
+            });
+        }
+
+        if (closeDrawerBtn && mobileDrawer) {
+            closeDrawerBtn.addEventListener('click', () => {
+                mobileDrawer.classList.remove('active');
+            });
+        }
 
         // Search features binds
         const searchInput = document.getElementById('global-search');
-        searchInput.addEventListener('input', (e) => this.handleSearchSuggestions(e.target.value));
-        document.addEventListener('click', (e) => {
-            if (!searchInput.contains(e.target)) {
-                document.getElementById('suggestions-box').classList.add('hidden');
-            }
-        });
+        const suggestionsBox = document.getElementById('suggestions-box');
+
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => this.handleSearchSuggestions(e.target.value));
+            document.addEventListener('click', (e) => {
+                if (
+                    suggestionsBox &&
+                    !searchInput.contains(e.target) &&
+                    !suggestionsBox.contains(e.target)
+                ) {
+                    suggestionsBox.classList.add('hidden');
+                }
+            });
+        }
 
         // Shopping Cart Dialog triggers
-        document.getElementById('cart-toggle-btn').addEventListener('click', () => {
-            document.getElementById('shopping-cart-canvas').classList.toggle('active');
-        });
-        document.getElementById('close-cart-btn').addEventListener('click', () => {
-            document.getElementById('shopping-cart-canvas').classList.remove('active');
-        });
+        const cartToggleBtn = document.getElementById('cart-toggle-btn');
+        const closeCartBtn = document.getElementById('close-cart-btn');
+        const cartCanvas = document.getElementById('shopping-cart-canvas');
+
+        if (cartToggleBtn && cartCanvas) {
+            cartToggleBtn.addEventListener('click', () => {
+                cartCanvas.classList.toggle('active');
+            });
+        }
+
+        if (closeCartBtn && cartCanvas) {
+            closeCartBtn.addEventListener('click', () => {
+                cartCanvas.classList.remove('active');
+            });
+        }
 
         // Filter operations binds
         document.querySelectorAll('[data-category-filter]').forEach(tab => {
-            tab.addEventListener('click', (e) => {
+            tab.addEventListener('click', () => {
                 document.querySelectorAll('[data-category-filter]').forEach(t => t.classList.remove('active'));
                 tab.classList.add('active');
                 this.renderProducts(tab.getAttribute('data-category-filter'));
@@ -196,41 +258,72 @@ const appState = {
         });
 
         // Auth Form tabs
-        document.getElementById('tab-login-btn').addEventListener('click', () => {
-            document.getElementById('tab-login-btn').classList.add('active');
-            document.getElementById('tab-register-btn').classList.remove('active');
-            document.getElementById('login-form').classList.remove('hidden');
-            document.getElementById('register-form').classList.add('hidden');
-        });
+        const tabLoginBtn = document.getElementById('tab-login-btn');
+        const tabRegisterBtn = document.getElementById('tab-register-btn');
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
 
-        document.getElementById('tab-register-btn').addEventListener('click', () => {
-            document.getElementById('tab-register-btn').classList.add('active');
-            document.getElementById('tab-login-btn').classList.remove('remove');
-            document.getElementById('tab-login-btn').classList.remove('active');
-            document.getElementById('login-form').classList.add('hidden');
-            document.getElementById('register-form').classList.remove('hidden');
-        });
+        if (tabLoginBtn && tabRegisterBtn && loginForm && registerForm) {
+            tabLoginBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                tabLoginBtn.classList.add('active');
+                tabRegisterBtn.classList.remove('active');
+                loginForm.classList.remove('hidden');
+                registerForm.classList.add('hidden');
+            });
+
+            tabRegisterBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                tabRegisterBtn.classList.add('active');
+                tabLoginBtn.classList.remove('remove');
+                tabLoginBtn.classList.remove('active');
+                loginForm.classList.add('hidden');
+                registerForm.classList.remove('hidden');
+            });
+        }
 
         // Form Submit Actions
-        document.getElementById('login-form').addEventListener('submit', (e) => this.handleLogin(e));
-        document.getElementById('register-form').addEventListener('submit', (e) => this.handleRegister(e));
-        document.getElementById('update-profile-form').addEventListener('submit', (e) => this.handleProfileUpdate(e));
-        document.getElementById('logout-btn').addEventListener('click', () => this.clearSession());
+        document.getElementById('login-form')?.addEventListener('submit', (e) => this.handleLogin(e));
+        document.getElementById('register-form')?.addEventListener('submit', (e) => this.handleRegister(e));
+        document.getElementById('update-profile-form')?.addEventListener('submit', (e) => this.handleProfileUpdate(e));
+        document.getElementById('logout-btn')?.addEventListener('click', () => this.clearSession());
 
         // Password visibility toggle handlers
         this.setupPasswordToggle('toggle-login-password', 'login-password');
         this.setupPasswordToggle('toggle-reg-password', 'reg-password');
 
         // Admin forms mapping
-        document.getElementById('admin-product-form').addEventListener('submit', (e) => this.handleAdminProductSubmit(e));
-        document.getElementById('admin-cancel-edit-btn').addEventListener('click', () => this.resetAdminForm());
+        document.getElementById('admin-product-form')?.addEventListener('submit', (e) => this.handleAdminProductSubmit(e));
+        document.getElementById('admin-cancel-edit-btn')?.addEventListener('click', () => this.resetAdminForm());
 
         // Checkouts Modal handles
-        document.getElementById('proceed-checkout-btn').addEventListener('click', () => this.openCheckoutModal());
-        document.getElementById('checkout-cancel-btn').addEventListener('click', () => {
-            document.getElementById('checkout-modal').classList.add('hidden');
+        document.getElementById('proceed-checkout-btn')?.addEventListener('click', () => this.openCheckoutModal());
+        document.getElementById('checkout-cancel-btn')?.addEventListener('click', () => {
+            document.getElementById('checkout-modal')?.classList.add('hidden');
         });
-        document.getElementById('checkout-form').addEventListener('submit', (e) => this.handleCheckout(e));
+        document.getElementById('checkout-form')?.addEventListener('submit', (e) => this.handleCheckout(e));
+
+        // Newsletter form
+        document.getElementById('newsletter-form')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.showNotification('Subscription feature coming soon', 'info');
+        });
+
+        // Footer links
+        document.getElementById('footer-home-link')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.navigateTo('hero-view');
+        });
+
+        document.getElementById('footer-products-link')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.navigateTo('products-view');
+        });
+
+        document.getElementById('footer-account-link')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.navigateTo('profile-view');
+        });
 
         // Category Cards binds
         document.querySelectorAll('.category-card').forEach(card => {
@@ -259,6 +352,8 @@ const appState = {
 
     renderProducts: function (filter = 'all') {
         const grid = document.getElementById('catalog-products-grid');
+        if (!grid) return;
+
         grid.innerHTML = '';
 
         const itemsToDisplay = filter === 'all'
@@ -291,16 +386,17 @@ const appState = {
                 </div>
             `;
 
-            // Card links
             card.addEventListener('click', (e) => {
                 if (e.target.closest('.wishlist-heart-btn')) {
                     e.stopPropagation();
                     this.toggleWishlist(product._id, e.target.closest('.wishlist-heart-btn'));
                     return;
                 }
+
                 if (e.target.closest('.product-action')) {
                     e.stopPropagation();
                 }
+
                 this.navigateTo('product-detail-view', product);
             });
 
@@ -311,6 +407,8 @@ const appState = {
     // Direct Product details generation
     renderProductDetails: function (product) {
         const container = document.getElementById('product-details-container');
+        if (!container) return;
+
         const isWishlisted = this.wishlist.includes(product._id);
 
         container.innerHTML = `
@@ -328,21 +426,24 @@ const appState = {
                         <button class="btn btn-secondary" id="wishlist-action-btn" data-id="${product._id}">
                             ${isWishlisted ? '❤️ Wishlist' : '♡ Wishlist'}
                         </button>
-                        <button class="btn btn-secondary" onclick="appState.navigateTo('products-view')">Back to Catalog</button>
+                        <button class="btn btn-secondary" id="back-to-catalog-btn">Back to Catalog</button>
                     </div>
                 </div>
             </div>
         `;
 
-        document.getElementById('add-to-cart-action-btn').addEventListener('click', () => {
+        document.getElementById('add-to-cart-action-btn')?.addEventListener('click', () => {
             this.addToCart(product);
         });
 
-        document.getElementById('wishlist-action-btn').addEventListener('click', (e) => {
+        document.getElementById('wishlist-action-btn')?.addEventListener('click', (e) => {
             this.toggleWishlist(product._id, e.target.closest('button'));
         });
 
-        // Tracking recently viewed items
+        document.getElementById('back-to-catalog-btn')?.addEventListener('click', () => {
+            this.navigateTo('products-view');
+        });
+
         if (!this.recentlyViewed.some(p => p._id === product._id)) {
             this.recentlyViewed.unshift(product);
             if (this.recentlyViewed.length > 5) this.recentlyViewed.pop();
@@ -352,6 +453,8 @@ const appState = {
     // Search Engine handles
     handleSearchSuggestions: function (query) {
         const box = document.getElementById('suggestions-box');
+        if (!box) return;
+
         if (!query) {
             box.classList.add('hidden');
             return;
@@ -373,7 +476,8 @@ const appState = {
             item.addEventListener('click', () => {
                 this.navigateTo('product-detail-view', product);
                 box.classList.add('hidden');
-                document.getElementById('global-search').value = '';
+                const searchInput = document.getElementById('global-search');
+                if (searchInput) searchInput.value = '';
             });
             box.appendChild(item);
         });
@@ -446,7 +550,7 @@ const appState = {
             const data = await res.json();
             if (data.success) {
                 this.user = { ...this.user, name: data.data.name, email: data.data.email };
-                localStorage.setItem('nexora_user', JSON.stringify(this.user));
+                safeStorage.set('nexora_user', JSON.stringify(this.user));
                 this.showNotification('Account matrix updated successfully', 'success');
                 this.renderProfile();
             } else {
@@ -466,7 +570,7 @@ const appState = {
             if (data.success) {
                 this.user = data.data;
                 this.wishlist = data.data.wishlist.map(p => p._id || p);
-                localStorage.setItem('nexora_user', JSON.stringify(this.user));
+                safeStorage.set('nexora_user', JSON.stringify(this.user));
             }
         } catch (err) {
             console.log('Unable to sync profile telemetry states');
@@ -476,6 +580,8 @@ const appState = {
     renderProfile: function () {
         const authBox = document.getElementById('auth-box-wrapper');
         const profileBox = document.getElementById('user-profile-wrapper');
+
+        if (!authBox || !profileBox) return;
 
         if (!this.token) {
             authBox.classList.remove('hidden');
@@ -488,7 +594,9 @@ const appState = {
 
         document.getElementById('profile-user-name').innerText = this.user.name;
         document.getElementById('profile-user-email').innerText = this.user.email;
-        document.getElementById('profile-user-role').innerText = this.user.role === 'admin' ? 'SYSTEM ADMINISTRATOR' : 'PLATINUM COMMISSIONS MEMBER';
+        document.getElementById('profile-user-role').innerText = this.user.role === 'admin'
+            ? 'SYSTEM ADMINISTRATOR'
+            : 'PLATINUM COMMISSIONS MEMBER';
 
         document.getElementById('update-name').value = this.user.name;
         document.getElementById('update-email').value = this.user.email;
@@ -516,7 +624,7 @@ const appState = {
             const data = await res.json();
             if (data.success) {
                 this.wishlist = data.wishlist;
-                btnElement.classList.toggle('active');
+                if (btnElement) btnElement.classList.toggle('active');
                 this.showNotification('Wishlist profile synchronized', 'success');
                 this.fetchProfileTelemetry();
             }
@@ -527,6 +635,8 @@ const appState = {
 
     renderWishlist: function () {
         const container = document.getElementById('wishlist-container');
+        if (!container || !this.user) return;
+
         container.innerHTML = '';
 
         if (!this.user.wishlist || this.user.wishlist.length === 0) {
@@ -544,7 +654,7 @@ const appState = {
                 </div>
                 <button class="btn btn-secondary btn-small">Aquire</button>
             `;
-            item.querySelector('button').addEventListener('click', () => {
+            item.querySelector('button')?.addEventListener('click', () => {
                 this.navigateTo('product-detail-view', product);
             });
             container.appendChild(item);
@@ -553,6 +663,8 @@ const appState = {
 
     renderOrdersHistory: async function () {
         const container = document.getElementById('orders-history-container');
+        if (!container) return;
+
         container.innerHTML = '<p class="placeholder-text">Syncing historical tracking configurations...</p>';
 
         try {
@@ -595,7 +707,7 @@ const appState = {
         }
         this.saveCart();
         this.showNotification('Item positioned in acquisitions pipeline', 'success');
-        document.getElementById('shopping-cart-canvas').classList.add('active');
+        document.getElementById('shopping-cart-canvas')?.classList.add('active');
     },
 
     removeFromCart: function (productId) {
@@ -617,13 +729,17 @@ const appState = {
     },
 
     saveCart: function () {
-        localStorage.setItem('nexora_cart', JSON.stringify(this.cart));
+        safeStorage.set('nexora_cart', JSON.stringify(this.cart));
         this.renderCart();
     },
 
     renderCart: function () {
         const container = document.getElementById('cart-items-container');
         const badge = document.getElementById('cart-badge');
+        const subtotalEl = document.getElementById('cart-subtotal-price');
+
+        if (!container || !badge || !subtotalEl) return;
+
         container.innerHTML = '';
 
         let subtotal = 0;
@@ -632,7 +748,7 @@ const appState = {
         if (this.cart.length === 0) {
             container.innerHTML = '<p class="placeholder-text">Your acquisitions list is currently empty.</p>';
             badge.classList.add('hidden');
-            document.getElementById('cart-subtotal-price').innerText = '$0.00';
+            subtotalEl.innerText = '$0.00';
             return;
         }
 
@@ -648,32 +764,45 @@ const appState = {
                     <div class="cart-item-name">${item.product.name}</div>
                     <div class="cart-item-price">$${(item.product.price * item.quantity).toLocaleString()}</div>
                     <div class="cart-item-qty-actions">
-                        <button class="qty-btn" onclick="appState.updateCartQuantity('${item.product._id}', -1)">-</button>
+                        <button class="qty-btn" data-action="decrease" data-id="${item.product._id}">-</button>
                         <span>${item.quantity}</span>
-                        <button class="qty-btn" onclick="appState.updateCartQuantity('${item.product._id}', 1)">+</button>
+                        <button class="qty-btn" data-action="increase" data-id="${item.product._id}">+</button>
                     </div>
-                    <button class="remove-cart-item-btn" onclick="appState.removeFromCart('${item.product._id}')">Remove Unit</button>
+                    <button class="remove-cart-item-btn" data-action="remove" data-id="${item.product._id}">Remove Unit</button>
                 </div>
             `;
+
+            div.querySelector('[data-action="decrease"]')?.addEventListener('click', () => {
+                this.updateCartQuantity(item.product._id, -1);
+            });
+
+            div.querySelector('[data-action="increase"]')?.addEventListener('click', () => {
+                this.updateCartQuantity(item.product._id, 1);
+            });
+
+            div.querySelector('[data-action="remove"]')?.addEventListener('click', () => {
+                this.removeFromCart(item.product._id);
+            });
+
             container.appendChild(div);
         });
 
         badge.innerText = totalCount;
         badge.classList.remove('hidden');
-        document.getElementById('cart-subtotal-price').innerText = `$${subtotal.toLocaleString()}`;
+        subtotalEl.innerText = `$${subtotal.toLocaleString()}`;
     },
 
     openCheckoutModal: function () {
         if (!this.token) {
             this.showNotification('Identity authentication required before checkout systems release', 'info');
             this.navigateTo('profile-view');
-            document.getElementById('shopping-cart-canvas').classList.remove('active');
+            document.getElementById('shopping-cart-canvas')?.classList.remove('active');
             return;
         }
 
-        let total = this.cart.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
+        const total = this.cart.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
         document.getElementById('checkout-order-total').innerText = `$${total.toLocaleString()}`;
-        document.getElementById('checkout-modal').classList.remove('hidden');
+        document.getElementById('checkout-modal')?.classList.remove('hidden');
     },
 
     handleCheckout: async function (e) {
@@ -701,8 +830,8 @@ const appState = {
             if (data.success) {
                 this.cart = [];
                 this.saveCart();
-                document.getElementById('checkout-modal').classList.add('hidden');
-                document.getElementById('shopping-cart-canvas').classList.remove('active');
+                document.getElementById('checkout-modal')?.classList.add('hidden');
+                document.getElementById('shopping-cart-canvas')?.classList.remove('active');
                 this.showNotification('Commission transaction initiated successfully', 'success');
                 this.navigateTo('profile-view');
             } else {
@@ -718,9 +847,9 @@ const appState = {
         try {
             const authHeaders = { 'Authorization': `Bearer ${this.token}` };
 
-            // Stats fetch
             const analyticsRes = await fetch(`${API_BASE}/admin/analytics`, { headers: authHeaders });
             const analytics = await analyticsRes.json();
+
             if (analytics.success) {
                 document.getElementById('analytic-revenue').innerText = `$${analytics.data.revenue.toLocaleString()}`;
                 document.getElementById('analytic-users').innerText = analytics.data.users;
@@ -730,7 +859,6 @@ const appState = {
 
             this.renderAdminProducts();
             this.renderAdminOrders();
-
         } catch (err) {
             this.showNotification('Console operations tracking lost telemetry links', 'error');
         }
@@ -741,6 +869,8 @@ const appState = {
             const res = await fetch(`${API_BASE}/products`);
             const data = await res.json();
             const tableBody = document.getElementById('admin-inventory-table-body');
+            if (!tableBody) return;
+
             tableBody.innerHTML = '';
 
             if (data.success) {
@@ -752,10 +882,19 @@ const appState = {
                         <td>$${product.price.toLocaleString()}</td>
                         <td>${product.stock} units</td>
                         <td>
-                            <button class="admin-action-btn" onclick="appState.editAdminProduct('${product._id}')">Edit</button>
-                            <button class="admin-action-btn admin-action-delete" onclick="appState.deleteAdminProduct('${product._id}')">Delete</button>
+                            <button class="admin-action-btn" data-action="edit" data-id="${product._id}">Edit</button>
+                            <button class="admin-action-btn admin-action-delete" data-action="delete" data-id="${product._id}">Delete</button>
                         </td>
                     `;
+
+                    tr.querySelector('[data-action="edit"]')?.addEventListener('click', () => {
+                        this.editAdminProduct(product._id);
+                    });
+
+                    tr.querySelector('[data-action="delete"]')?.addEventListener('click', () => {
+                        this.deleteAdminProduct(product._id);
+                    });
+
                     tableBody.appendChild(tr);
                 });
             }
@@ -771,6 +910,8 @@ const appState = {
             });
             const data = await res.json();
             const tableBody = document.getElementById('admin-orders-table-body');
+            if (!tableBody) return;
+
             tableBody.innerHTML = '';
 
             if (data.success) {
@@ -782,7 +923,7 @@ const appState = {
                         <td>$${order.totalPrice.toLocaleString()}</td>
                         <td><span class="order-status-badge status-${order.status.toLowerCase()}">${order.status}</span></td>
                         <td>
-                            <select onchange="appState.updateOrderStatus('${order._id}', this.value)" style="padding: 4px; background: rgba(0,0,0,0.5); color:#fff; border:1px solid rgba(255,255,255,0.1)">
+                            <select class="admin-order-status-select" data-id="${order._id}" style="padding: 4px; background: rgba(0,0,0,0.5); color:#fff; border:1px solid rgba(255,255,255,0.1)">
                                 <option value="Pending" ${order.status === 'Pending' ? 'selected' : ''}>Pending</option>
                                 <option value="Processing" ${order.status === 'Processing' ? 'selected' : ''}>Processing</option>
                                 <option value="Shipped" ${order.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
@@ -791,6 +932,11 @@ const appState = {
                             </select>
                         </td>
                     `;
+
+                    tr.querySelector('.admin-order-status-select')?.addEventListener('change', (e) => {
+                        this.updateOrderStatus(order._id, e.target.value);
+                    });
+
                     tableBody.appendChild(tr);
                 });
             }
@@ -903,16 +1049,23 @@ const appState = {
     // Premium micro-interactivity Notification Service
     showNotification: function (message, type = 'info') {
         const container = document.getElementById('toast-container');
+        if (!container) return;
+
         const toast = document.createElement('div');
         toast.className = 'toast';
-        toast.style.borderLeftColor = type === 'success' ? 'var(--color-success)' : type === 'error' ? 'var(--color-error)' : 'var(--gold-primary)';
+        toast.style.borderLeftColor =
+            type === 'success'
+                ? 'var(--color-success)'
+                : type === 'error'
+                    ? 'var(--color-error)'
+                    : 'var(--gold-primary)';
 
         toast.innerHTML = `
             <span class="toast-message">${message}</span>
             <span class="toast-close">&times;</span>
         `;
 
-        toast.querySelector('.toast-close').addEventListener('click', () => {
+        toast.querySelector('.toast-close')?.addEventListener('click', () => {
             toast.style.opacity = '0';
             setTimeout(() => toast.remove(), 400);
         });
