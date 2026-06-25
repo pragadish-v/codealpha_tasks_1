@@ -12,14 +12,10 @@
 </head>
 
 <body>
-
-    <!-- Cinematic Custom Spotlight Tracker -->
     <div class="spotlight-layer" id="spotlight"></div>
 
-    <!-- Toast Notification Engine Container -->
     <div id="toast-container" class="toast-container"></div>
 
-    <!-- Navigation Bar -->
     <nav class="luxury-navbar">
         <div class="nav-container">
             <a href="#" class="nav-logo" id="brand-logo">NEXORA</a>
@@ -48,7 +44,6 @@
         </div>
     </nav>
 
-    <!-- Slide-out Drawer Panel for Mobile Devices -->
     <div class="mobile-drawer" id="mobile-drawer">
         <div class="drawer-header">
             <div class="drawer-title">NEXORA</div>
@@ -62,18 +57,12 @@
         </div>
     </div>
 
-    <!-- Main Dynamic Application Container -->
     <main class="app-viewport">
-
-        <!-- 1. Home / Hero View (Microsoft Copilot Inspired Layered Visual) -->
         <section id="hero-view" class="view-panel active-panel">
             <div class="hero-container hero-cinematic">
-                <!-- Layered cinematic background (pure CSS/SVG, no external assets) -->
                 <div class="hero-backdrop-effects" aria-hidden="true">
-                    <!-- Abstract CPU / GPU accelerator silhouettes -->
                     <svg class="hero-silhouettes" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice"
                         xmlns="http://www.w3.org/2000/svg">
-                        <!-- CPU die -->
                         <g class="silhouette-cpu">
                             <rect x="560" y="330" width="320" height="240" rx="14" />
                             <rect x="610" y="380" width="220" height="140" rx="8" class="silhouette-core" />
@@ -90,14 +79,12 @@
                                 <rect x="880" y="520" width="20" height="8" />
                             </g>
                         </g>
-                        <!-- GPU accelerator block -->
                         <g class="silhouette-gpu">
                             <rect x="120" y="200" width="260" height="110" rx="10" />
                             <rect x="1080" y="600" width="240" height="100" rx="10" />
                         </g>
                     </svg>
 
-                    <!-- Golden flowing circuit traces -->
                     <svg class="hero-circuits" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice"
                         xmlns="http://www.w3.org/2000/svg">
                         <g class="circuit-traces">
@@ -120,16 +107,13 @@
                         </g>
                     </svg>
 
-                    <!-- Faint AI energy lines -->
                     <div class="ai-energy-lines">
                         <span></span><span></span><span></span><span></span>
                     </div>
 
-                    <!-- GPU particle field -->
                     <div class="particle-field"></div>
                     <div class="particle-field particle-field-slow"></div>
 
-                    <!-- Warm cinematic glow -->
                     <div class="cinematic-glow cinematic-glow-gold"></div>
                     <div class="cinematic-glow cinematic-glow-warm"></div>
                 </div>
@@ -140,20 +124,16 @@
                     <p class="hero-subtitle">Explore a handpicked collection of premium devices crafted for creators,
                         professionals, and innovators.</p>
                     <div class="hero-actions">
-                        <button class="btn btn-primary" onclick="appState.navigateTo('products-view')">Explore
-                            Collection</button>
-                        <button class="btn btn-secondary" onclick="appState.navigateTo('products-view')">New
-                            Arrivals</button>
+                        <button class="btn btn-primary" id="explore-collection-btn">Explore Collection</button>
+                        <button class="btn btn-secondary" id="new-arrivals-btn">New Arrivals</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Categories Selection Area -->
             <section class="section-container" id="category-section">
                 <h2 class="section-title">Featured Categories</h2>
                 <div class="categories-grid">
-                    <div class="category-card" data-category="smartphones"
-                        onclick="appState.filterProducts('smartphones')">
+                    <div class="category-card" data-category="smartphones">
                         <div class="cat-image-bg"
                             style="background-image: url('https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=80');">
                         </div>
@@ -162,7 +142,7 @@
                             <p>Premium mobile devices</p>
                         </div>
                     </div>
-                    <div class="category-card" data-category="laptops" onclick="appState.filterProducts('laptops')">
+                    <div class="category-card" data-category="laptops">
                         <div class="cat-image-bg"
                             style="background-image: url('https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=800&q=80');">
                         </div>
@@ -171,8 +151,7 @@
                             <p>Ultimate computing power</p>
                         </div>
                     </div>
-                    <div class="category-card" data-category="accessories"
-                        onclick="appState.filterProducts('accessories')">
+                    <div class="category-card" data-category="accessories">
                         <div class="cat-image-bg"
                             style="background-image: url('https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=crop&fit=crop&w=800&q=80');">
                         </div>
@@ -184,8 +163,6 @@
                 </div>
             </section>
 
-            <!-- Why NEXORA Features Section -->
-            <!-- Testimonials Section -->
             <section class="section-container">
                 <h2 class="section-title">Trusted by Thousands</h2>
                 <div class="testimonials-grid">
@@ -210,7 +187,6 @@
                 </div>
             </section>
 
-            <!-- Statistics Section -->
             <section class="section-container">
                 <h2 class="section-title">By The Numbers</h2>
                 <div class="stats-grid">
@@ -233,13 +209,12 @@
                 </div>
             </section>
 
-            <!-- Newsletter CTA Section -->
             <section class="section-container">
                 <div class="newsletter-section">
                     <h2>Stay In The Loop</h2>
                     <p>Get early access to new launches, exclusive deals, and curated tech insights delivered to your
                         inbox.</p>
-                    <form class="newsletter-form" onsubmit="return false;">
+                    <form class="newsletter-form" id="newsletter-form">
                         <input type="email" placeholder="Enter your email" required>
                         <button type="submit" class="btn btn-primary">Subscribe</button>
                     </form>
@@ -247,7 +222,6 @@
             </section>
         </section>
 
-        <!-- 2. Products Catalog View -->
         <section id="products-view" class="view-panel view-spacing">
             <div class="section-container">
                 <div class="catalog-header">
@@ -255,7 +229,6 @@
                         <h1 class="catalog-main-title">Curated Collection</h1>
                         <p class="catalog-subtitle">Filter by category to display our bespoke electronics inventory</p>
                     </div>
-                    <!-- Catalog Controls / Filters -->
                     <div class="catalog-filters">
                         <button class="filter-tab active" data-category-filter="all">All Products</button>
                         <button class="filter-tab" data-category-filter="smartphones">Smartphones</button>
@@ -264,9 +237,7 @@
                     </div>
                 </div>
 
-                <!-- Product Display Grid -->
                 <div id="catalog-products-grid" class="products-grid">
-                    <!-- Products dynamically rendered here -->
                     <div class="skeleton-loader"></div>
                     <div class="skeleton-loader"></div>
                     <div class="skeleton-loader"></div>
@@ -274,25 +245,18 @@
             </div>
         </section>
 
-        <!-- 3. Dynamic Product Details View -->
         <section id="product-detail-view" class="view-panel view-spacing">
-            <div class="section-container" id="product-details-container">
-                <!-- Dynamically loaded product properties page layout -->
-            </div>
+            <div class="section-container" id="product-details-container"></div>
         </section>
 
-        <!-- 4. User Profile / Auth Gate View -->
         <section id="profile-view" class="view-panel view-spacing">
             <div class="section-container max-width-small">
-
-                <!-- Unauthenticated UI Frame -->
                 <div id="auth-box-wrapper" class="glass-form-card">
                     <div class="form-tabs">
                         <button class="form-tab-btn active" id="tab-login-btn">Sign In</button>
                         <button class="form-tab-btn" id="tab-register-btn">Create Account</button>
                     </div>
 
-                    <!-- Sign-in Container Form -->
                     <form id="login-form" class="form-block">
                         <h2 class="form-title">Welcome to the Inner Circle</h2>
                         <div class="form-group">
@@ -310,7 +274,6 @@
                         <button type="submit" class="btn btn-primary btn-block">Authenticate Identity</button>
                     </form>
 
-                    <!-- Registration Container Form -->
                     <form id="register-form" class="form-block hidden">
                         <h2 class="form-title">Initiate Premium Membership</h2>
                         <div class="form-group">
@@ -333,22 +296,18 @@
                     </form>
                 </div>
 
-                <!-- Authenticated User Profile Dashboard -->
                 <div id="user-profile-wrapper" class="hidden">
                     <div class="profile-header-card">
                         <div class="avatar-glow"></div>
                         <div class="user-meta-info">
                             <h2 id="profile-user-name">Welcome Back, Guest</h2>
-                            <p id="profile-user-email"><a href="/cdn-cgi/l/email-protection" class="__cf_email__"
-                                    data-cfemail="c5a2b0a0b6b185aba0bdaab7a4eba6aaa8">[email&#160;protected]</a></p>
+                            <p id="profile-user-email">guest@example.com</p>
                             <span class="user-tier-badge" id="profile-user-role">Privileged Client</span>
                         </div>
                         <button class="btn btn-secondary btn-small" id="logout-btn">Terminate Session</button>
                     </div>
 
-                    <!-- Profile Management Sections -->
                     <div class="profile-grids">
-                        <!-- Left Panel: Profile Updates & History -->
                         <div class="profile-main-stack">
                             <div class="glass-panel">
                                 <h3>Account Information Update</h3>
@@ -373,7 +332,6 @@
                             </div>
                         </div>
 
-                        <!-- Right Panel: Wishlist -->
                         <div class="profile-side-stack">
                             <div class="glass-panel height-full">
                                 <h3>Bespoke Wishlist</h3>
@@ -384,11 +342,9 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </section>
 
-        <!-- 5. Interactive Secure Admin Console View -->
         <section id="admin-view" class="view-panel view-spacing">
             <div class="section-container">
                 <div class="admin-panel-header">
@@ -399,7 +355,6 @@
                     </div>
                 </div>
 
-                <!-- Top Analytics Bar -->
                 <div class="analytics-grid">
                     <div class="analytic-card">
                         <div class="title">Bespoke Sales Volume</div>
@@ -419,9 +374,7 @@
                     </div>
                 </div>
 
-                <!-- Control Console Layout splits -->
                 <div class="admin-split-grid">
-                    <!-- Left: Create/Update Products Form -->
                     <div class="glass-panel">
                         <h3 id="product-form-action-title">Inventory Curation</h3>
                         <form id="admin-product-form">
@@ -460,15 +413,13 @@
                                     placeholder="Precision materials details..."></textarea>
                             </div>
                             <div class="form-actions">
-                                <button type="submit" class="btn btn-primary" id="admin-submit-btn">Publish
-                                    Item</button>
-                                <button type="button" class="btn btn-secondary hidden" id="admin-cancel-edit-btn">Cancel
-                                    Edit</button>
+                                <button type="submit" class="btn btn-primary" id="admin-submit-btn">Publish Item</button>
+                                <button type="button" class="btn btn-secondary hidden"
+                                    id="admin-cancel-edit-btn">Cancel Edit</button>
                             </div>
                         </form>
                     </div>
 
-                    <!-- Right: Product Inventory Operations -->
                     <div class="glass-panel flex-column overflow-hidden">
                         <h3>Secure Inventory Registry</h3>
                         <div class="scroll-table-wrapper">
@@ -482,15 +433,12 @@
                                         <th>Control</th>
                                     </tr>
                                 </thead>
-                                <tbody id="admin-inventory-table-body">
-                                    <!-- Dynamic product content rendering -->
-                                </tbody>
+                                <tbody id="admin-inventory-table-body"></tbody>
                             </table>
                         </div>
                     </div>
                 </div>
 
-                <!-- Bottom Order Telemetry Control -->
                 <div class="glass-panel mt-20">
                     <h3>Commission Dispatches & Tracking Systems</h3>
                     <div class="scroll-table-wrapper">
@@ -504,25 +452,20 @@
                                     <th>Dispatch Control</th>
                                 </tr>
                             </thead>
-                            <tbody id="admin-orders-table-body">
-                                <!-- Order lists loaded by system admin dashboard -->
-                            </tbody>
+                            <tbody id="admin-orders-table-body"></tbody>
                         </table>
                     </div>
                 </div>
-
             </div>
         </section>
     </main>
 
-    <!-- Premium Shopping Cart -->
     <aside class="shopping-cart-canvas" id="shopping-cart-canvas">
         <div class="cart-header">
             <h3>Shopping Cart</h3>
             <button class="close-cart-btn" id="close-cart-btn">&times;</button>
         </div>
         <div class="cart-items" id="cart-items-container">
-            <!-- Dynamic Cart Items loaded from App State -->
             <p class="placeholder-text">Your cart is empty.</p>
         </div>
         <div class="cart-footer">
@@ -535,7 +478,6 @@
         </div>
     </aside>
 
-    <!-- Premium Checkout Dialog Modal -->
     <div class="checkout-modal-backdrop hidden" id="checkout-modal">
         <div class="checkout-modal-card glass-panel">
             <h2>Secure Checkout</h2>
@@ -570,7 +512,6 @@
         </div>
     </div>
 
-    <!-- Premium Global Page Footer -->
     <footer class="luxury-footer">
         <div class="footer-grid">
             <div class="footer-brand-info">
@@ -579,9 +520,9 @@
             </div>
             <div class="footer-links-column">
                 <h4>Explore</h4>
-                <a href="#" class="footer-link" onclick="appState.navigateTo('hero-view')">Home</a>
-                <a href="#" class="footer-link" onclick="appState.navigateTo('products-view')">Products</a>
-                <a href="#" class="footer-link" onclick="appState.navigateTo('profile-view')">Account</a>
+                <a href="#" class="footer-link" id="footer-home-link">Home</a>
+                <a href="#" class="footer-link" id="footer-products-link">Products</a>
+                <a href="#" class="footer-link" id="footer-account-link">Account</a>
             </div>
             <div class="footer-links-column">
                 <h4>Support</h4>
@@ -601,10 +542,8 @@
         </div>
     </footer>
 
-    <!-- App Engine Script Engine -->
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script src="app.js"></script>
-    <script>(function () { function c() { var b = a.contentDocument || a.contentWindow.document; if (b) { var d = b.createElement('script'); d.innerHTML = "window.__CF$cv$params={r:'a1045683eb087efe',t:'MTc4MjIyNjU3MA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);"; b.getElementsByTagName('head')[0].appendChild(d) } } if (document.body) { var a = document.createElement('iframe'); a.height = 1; a.width = 1; a.style.position = 'absolute'; a.style.top = 0; a.style.left = 0; a.style.border = 'none'; a.style.visibility = 'hidden'; document.body.appendChild(a); if ('loading' !== document.readyState) c(); else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c); else { var e = document.onreadystatechange || function () { }; document.onreadystatechange = function (b) { e(b); 'loading' !== document.readyState && (document.onreadystatechange = e, c()) } } } })();</script>
 </body>
 
 </html>
